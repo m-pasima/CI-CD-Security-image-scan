@@ -29,6 +29,12 @@ jobs:
       run: |
         bandit -r src/
 
+    - name: Install Trivy
+      run: |
+        sudo apt-get install wget
+        wget https://github.com/aquasecurity/trivy/releases/download/v0.35.0/trivy_0.35.0_Linux-64bit.deb
+        sudo dpkg -i trivy_0.35.0_Linux-64bit.deb
+
     - name: Run Trivy (Container Image Scanning)
       run: |
         docker build -t secure-ci-cd-pipeline .
