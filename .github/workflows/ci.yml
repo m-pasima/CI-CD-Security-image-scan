@@ -40,8 +40,14 @@ jobs:
         docker build -t secure-ci-cd-pipeline .
         trivy image secure-ci-cd-pipeline
 
+    - name: Install Snyk
+      run: |
+        npm install -g snyk
+
     - name: Run Snyk (Dependency Scanning)
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       run: |
+        snyk auth $SNYK_TOKEN
         snyk test --file=requirements.txt --severity-threshold=high
+
