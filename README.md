@@ -11,7 +11,7 @@ This project demonstrates a CI/CD pipeline with integrated security checks using
 ## Getting Started
 1. **Clone the Repository:**
     ```bash
-    git clone https://github.com/yourusername/CI-CD-Security-image-scan.git
+    https://github.com/m-pasima/CI-CD-Security-image-scan.git
     cd CI-CD-Security-image-scan
     ```
 
