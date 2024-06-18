@@ -1,5 +1,5 @@
 pytest
 pytest-cov
 bandit
-trivy
+#trivy
 snyk
