@@ -1,0 +1,41 @@
+name: CI Pipeline
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+
+    - name: Run tests
+      run: |
+        pytest --cov=src
+
+    - name: Run Bandit (Security Linter)
+      run: |
+        bandit -r src/
+
+    - name: Run Trivy (Container Image Scanning)
+      run: |
+        docker build -t secure-ci-cd-pipeline .
+        trivy image secure-ci-cd-pipeline
+
+    - name: Run Snyk (Dependency Scanning)
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      run: |
+        snyk test --file=requirements.txt --severity-threshold=high
